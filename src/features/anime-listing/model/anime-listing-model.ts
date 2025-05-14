@@ -1,7 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface IAnime {
+    mal_id: number;
+    title: string;
+    images: {
+        jpg: { image_url: string };
+    };
+}
 
 interface IAnimeListing {
-  data: string[];
+    data: IAnime[];
 }
 
 const initialState: IAnimeListing = {
@@ -12,12 +20,13 @@ export const animeListingSlice = createSlice({
     name: 'animeListing',
     initialState,
     reducers: {
-        resetAnimeListing() {
-            return initialState;
+        setAnimeListing(state, action: PayloadAction<IAnime[]>) {
+            state.data = action.payload;
         },
+        resetAnimeListing: () => initialState,
     },
 });
 
-export const { resetAnimeListing } = animeListingSlice.actions;
+export const { setAnimeListing, resetAnimeListing } = animeListingSlice.actions;
 
 export default animeListingSlice.reducer;
