@@ -141,17 +141,15 @@ export const MobileMetaWrapper = styled(Box)(({ theme }) => ({
     marginTop: theme.spacing(0.5),
 }));
 
-export const MobileActionBar = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    marginTop: theme.spacing(0.75),
-    '& .MuiIconButton-root': {
-        padding: 6,
-        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.6)' : 'rgba(240, 240, 240, 0.8)',
-        '&:first-of-type': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-        },
+export const MobileSynopsis = styled(Typography)(({ theme }) => ({
+    fontSize: '0.75rem',
+    opacity: 0.8,
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    [theme.breakpoints.up('sm')]: {
+        display: 'none',
     },
 }));

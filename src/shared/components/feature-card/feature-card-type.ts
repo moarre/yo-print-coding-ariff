@@ -9,4 +9,5 @@ export interface IFeatureCard {
     votes: string;
     seasons: number;
     episodes: number;
+    mal_id: number;
 }

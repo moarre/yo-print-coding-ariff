@@ -1,11 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface IAnime {
+export interface IAnime {
     mal_id: number;
     title: string;
+    synopsis: string;
+    score: number;
+    scored_by: number;
     images: {
         jpg: { image_url: string };
     };
+    rating: string;
+    episodes: number;
+    season?: string;
+    year?: number;
+    genres: { name: string }[];
 }
 
 interface IAnimeListing {

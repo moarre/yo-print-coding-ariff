@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Typography, Box, IconButton, Chip } from '@mui/material';
-import { PlayArrow, PlaylistAdd, Info, Schedule } from '@mui/icons-material';
+import { Typography, Box, Chip } from '@mui/material';
+import { Schedule } from '@mui/icons-material';
 
 import { IFeatureCard } from './feature-card-type';
-
 import {
     CardContainer,
     CardInner,
@@ -18,8 +17,8 @@ import {
     MobileCardContent,
     MobileTitle,
     MobileEpisodeLabel,
-    MobileActionBar,
     MobileMetaWrapper,
+    MobileSynopsis,
 } from './feature-card.styles';
 
 const FeatureCard: React.FC<IFeatureCard> = ({
@@ -33,20 +32,19 @@ const FeatureCard: React.FC<IFeatureCard> = ({
     votes,
     seasons,
     episodes,
+    mal_id,
 }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [flipped, setFlipped] = useState(false);
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        if (!isMobile) {
-            setFlipped((prev) => !prev);
-        }
+        navigate(`/anime/${mal_id}`);
     };
 
     if (isMobile) {
         return (
-            <MobileCardContainer>
+            <MobileCardContainer onClick={handleClick}>
                 <Box position="relative" flexShrink={0}>
                     <MobileCardImage src={image} alt={title} />
                     {isNew && (
@@ -67,10 +65,7 @@ const FeatureCard: React.FC<IFeatureCard> = ({
                 </Box>
 
                 <MobileCardContent>
-                    <Box display="flex" justifyContent="space-between" alignItems="flex-start">
-                        <MobileTitle variant="subtitle2">{title}</MobileTitle>
-                    </Box>
-
+                    <MobileTitle variant="subtitle2">{title}</MobileTitle>
                     <MobileEpisodeLabel>
                         <Typography variant="body2" color="gold">
                             👑
@@ -80,6 +75,8 @@ const FeatureCard: React.FC<IFeatureCard> = ({
                         </Typography>
                     </MobileEpisodeLabel>
 
+                    <MobileSynopsis variant="body2">{synopsis}</MobileSynopsis>
+
                     <MobileMetaWrapper>
                         <Box display="flex" alignItems="center" gap={0.5}>
                             <Schedule fontSize="small" color="primary" sx={{ fontSize: 14 }} />
@@ -88,18 +85,6 @@ const FeatureCard: React.FC<IFeatureCard> = ({
                             </Typography>
                         </Box>
                     </MobileMetaWrapper>
-
-                    <MobileActionBar>
-                        <IconButton size="small" color="primary" aria-label="play">
-                            <PlayArrow fontSize="small" />
-                        </IconButton>
-                        <IconButton size="small" color="inherit" aria-label="add to list">
-                            <PlaylistAdd fontSize="small" />
-                        </IconButton>
-                        <IconButton size="small" color="inherit" aria-label="information">
-                            <Info fontSize="small" />
-                        </IconButton>
-                    </MobileActionBar>
                 </MobileCardContent>
             </MobileCardContainer>
         );
@@ -107,7 +92,7 @@ const FeatureCard: React.FC<IFeatureCard> = ({
 
     return (
         <CardContainer onClick={handleClick}>
-            <CardInner className="card-inner" flipped={flipped}>
+            <CardInner className="card-inner" flipped={false}>
                 <CardFront>
                     <CardImage src={image} alt={title} />
                     <Typography
@@ -129,24 +114,12 @@ const FeatureCard: React.FC<IFeatureCard> = ({
                             {title}
                         </Typography>
                         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                            {rating} ★ ({votes})
-                            <br />
+                            {rating} ★ ({votes})<br />
                             {seasons} {seasons > 1 ? 'Seasons' : 'Season'}
                             <br />
                             {episodes} {episodes > 1 ? 'Episodes' : 'Episode'}
                         </Typography>
                         <Synopsis variant="body2">{synopsis}</Synopsis>
-                    </Box>
-                    <Box mt={2} display="flex" gap={1}>
-                        <IconButton sx={{ color: 'white' }}>
-                            <PlayArrow />
-                        </IconButton>
-                        <IconButton sx={{ color: 'white' }}>
-                            <PlaylistAdd />
-                        </IconButton>
-                        <IconButton sx={{ color: 'white' }}>
-                            <Info />
-                        </IconButton>
                     </Box>
                 </CardBack>
             </CardInner>
