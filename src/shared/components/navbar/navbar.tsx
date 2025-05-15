@@ -15,15 +15,19 @@ import {
     AppTitle,
 } from './navbar.styles';
 import { NavbarProps } from './navbar-type';
+import { setSelectedGenres } from '../../../features/anime-listing/model/anime-listing-model';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
 const Navbar: React.FC<NavbarProps> = ({ genres, onGenreSelect }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
     const [tempSelectedGenres, setTempSelectedGenres] = useState<number[]>([]);
+
+    const dispatch = useAppDispatch();
+    const selectedGenres = useAppSelector((state) => state.animeListing.selectedGenres);
 
     useEffect(() => {
         if (anchorEl) {
-            setTempSelectedGenres([...selectedGenres]);
+            setTempSelectedGenres([...(selectedGenres || [])]);
         }
     }, [anchorEl, selectedGenres]);
 
@@ -42,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ genres, onGenreSelect }) => {
     };
 
     const handleApplyFilter = () => {
-        setSelectedGenres(tempSelectedGenres);
+        dispatch(setSelectedGenres(tempSelectedGenres));
         onGenreSelect(tempSelectedGenres);
         handleCloseFilter();
     };

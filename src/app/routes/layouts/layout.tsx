@@ -17,7 +17,7 @@ const Layout: FC = () => {
         <>
             <Navbar genres={GENRES} onGenreSelect={handleGenreSelect} />
             <Box sx={{ py: 4 }}>
-                <Container maxWidth="md">
+                <Container>
                     <Outlet context={{ selectedGenres }} />
                 </Container>
             </Box>

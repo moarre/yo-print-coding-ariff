@@ -18,10 +18,12 @@ export interface IAnime {
 
 interface IAnimeListing {
     data: IAnime[];
+    selectedGenres: number[];
 }
 
 const initialState: IAnimeListing = {
     data: [],
+    selectedGenres: [],
 };
 
 export const animeListingSlice = createSlice({
@@ -31,10 +33,16 @@ export const animeListingSlice = createSlice({
         setAnimeListing(state, action: PayloadAction<IAnime[]>) {
             state.data = action.payload;
         },
-        resetAnimeListing: () => initialState,
+        resetAnimeListing: (state) => {
+            state.data = [];
+            state.selectedGenres = [];
+        },
+        setSelectedGenres(state, action: PayloadAction<number[]>) {
+            state.selectedGenres = action.payload;
+        },
     },
 });
 
-export const { setAnimeListing, resetAnimeListing } = animeListingSlice.actions;
+export const { setAnimeListing, resetAnimeListing, setSelectedGenres } = animeListingSlice.actions;
 
 export default animeListingSlice.reducer;
